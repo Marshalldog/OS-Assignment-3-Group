@@ -15,7 +15,7 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 	int k = leftstart; // k is start index of temp memory used in B
 
 	//merge the results into memory in B
-	while (i <= leftend && j <= rightend){
+	while (i < leftend && j < rightend){
 		// check which value is lower in the two array halves
 		if (A[i] <= A[j]){
 			//put lower value into correct slot of B
@@ -44,8 +44,7 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 	}
 
 	//copy the result from B back into A using memcpy
-	memcpy(&A[leftstart], &B[rightstart], (rightend - leftstart + 1)*(sizeof(int)));
-
+	memcpy(&A[leftstart], &B[leftstart], (rightend - leftstart + 1)*(sizeof(int)));
 }
 
 /* this function will be called by parallel_mergesort() as its base case. */
@@ -71,6 +70,20 @@ void * parallel_mergesort(void *arg){
 
 /* we build the argument for the parallel_mergesort function. */
 struct argument * buildArgs(int left, int right, int level){
-		return NULL;
-}
+		//allocate memory for the stuc using malloc
+		//malloc returns void* but it is implicilty cast to struct argument* pointer
+		struct argument* arg = malloc(sizeof(struct argument));
 
+		//throw error in case malloc fails
+		if (arg == NULL){
+			perror("Build arg: malloc failed");
+			exit(1);
+		}
+
+		//set the data members
+		arg->left = left;
+		arg->right = right;
+		arg->level = level;
+		//return
+		return arg;
+}
