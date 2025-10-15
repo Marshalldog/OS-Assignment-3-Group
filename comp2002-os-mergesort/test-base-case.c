@@ -152,7 +152,7 @@ int main(int argc, char **argv) {
 
 	// sort the input (and time it)
 	start_time = getMilliSeconds();
-	/* first index is 0, last index is n-1, we consider the main thread as level 0 */
+	// Running the base case merge sort (single threaded) no matter the size of the array or input level
 	my_mergesort(0,n-1);
 	sorting_time = getMilliSeconds() - start_time;
 

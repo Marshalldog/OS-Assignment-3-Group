@@ -51,6 +51,18 @@ void * parallel_mergesort(void *arg){
 
 /* we build the argument for the parallel_mergesort function. */
 struct argument * buildArgs(int left, int right, int level){
-		return NULL;
+	// Allocate memory for one struct
+	struct argument* arg = malloc(sizeof(struct argument)); // Implicity cast from the malloc returned void* to argument*
+
+	// Handled failed malloc
+	if (arg == NULL) {
+		perror("Malloc failed when allocating space for the the args");
+		exit(1);
+	}
+
+	arg->left = left;
+	arg->right = right;
+	arg->level = level;
+	return arg;
 }
 
