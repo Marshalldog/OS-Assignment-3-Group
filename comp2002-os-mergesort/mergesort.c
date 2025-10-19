@@ -13,7 +13,7 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 	int r = rightstart;
 	int k = leftstart;
 
-	while (l < leftend && r < rightend) {
+	while (l <= leftend && r <= rightend) {
 		if (A[l] <= A[r])
 			B[k++] = A[l++];
 		else
@@ -21,9 +21,9 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 	}
 	
 	// Empty the remaining array into the temp B array
-	while (l < leftend)
+	while (l <= leftend)
 		B[k++] = A[l++];
-	while (r < rightend)
+	while (r <= rightend)
 		B[k++] = A[r++];
 
 	// Copy the temp array from B back into A at the corresponding position
@@ -54,12 +54,13 @@ struct argument * buildArgs(int left, int right, int level){
 	// Allocate memory for one struct
 	struct argument* arg = malloc(sizeof(struct argument)); // Implicity cast from the malloc returned void* to argument*
 
-	// Handled failed malloc
+	// Handle failed malloc
 	if (arg == NULL) {
 		perror("Malloc failed when allocating space for the the args");
 		exit(1);
 	}
 
+	// Assign the struct members the correct value to be passed through
 	arg->left = left;
 	arg->right = right;
 	arg->level = level;
