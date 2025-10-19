@@ -152,11 +152,8 @@ int main(int argc, char **argv) {
 	// sort the input (and time it)
 	start_time = getMilliSeconds();
 	/* first index is 0, last index is n-1, we consider the main thread as level 0 */
-	//struct argument *arg=buildArgs(0, n-1, 0);
-	//parallel_mergesort(arg);
-
-	//testing just sorting algorithm to make sure it works
-	my_mergesort(0,n-1);
+	struct argument *arg=buildArgs(0, n-1, 0);
+	parallel_mergesort(arg);
 
 	sorting_time = getMilliSeconds() - start_time;
 
@@ -169,7 +166,6 @@ int main(int argc, char **argv) {
 		printf("Sorting %d elements took %4.2lf seconds.\n", n,  sorting_time/1000.0);
 	} else {
 		printf("%s: sorting failed!!!!\n", argv[0]);
-		//free(arg);
 		free(B);
 		free(A);
 		exit(EXIT_FAILURE);
