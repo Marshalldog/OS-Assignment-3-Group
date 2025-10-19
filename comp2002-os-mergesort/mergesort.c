@@ -44,9 +44,56 @@ void my_mergesort(int left, int right){
 	merge(left, mid, mid + 1, right);
 }
 
-/* this function will be called by the testing program. */
+// Type void * as pthread_create requires a function pointer
 void * parallel_mergesort(void *arg){
+	// Cast to a argument struct pointer so we can derefence our three variables.
+	struct argument *a = (struct argument *) arg;
+	int left = a->left, right = a->right, level = a->level;
+
+	// Single elemet (sorted) or empty array
+	if (left >= right) {
+		return NULL; // Don't require a value to be returned;
+	}
+
+	// If the level has reach a maximum, use serial mergesort
+	if (level >= cutoff) {
+		my_mergesort(left,right);
 		return NULL;
+	}
+
+	int mid = left + (right - left) / 2;
+	pthread_t leftThread, rightThread; // Pointer to thread IDs
+
+	// Create new thread to run parallel mergesort on the left half of the curr array.
+	struct argument* leftArgs = buildArgs(left,mid,level+1);
+	int thread_left_failed = pthread_create(&leftThread, NULL, parallel_mergesort, leftArgs);
+	if (thread_left_failed) {
+		perror("Left thread creation failed");
+		exit(1);
+	}
+
+	// Create new thread to run parallel mergesort on the right half of the curr array.
+	struct argument* rightArgs = buildArgs(mid+1,right,level+1);
+	int thread_right_failed = pthread_create(&rightThread, NULL, parallel_mergesort, rightArgs);
+	if (thread_right_failed) {
+		perror("Right thread creation failed");
+		exit(1);
+	}
+
+	// Wait for the threads to finish
+	int join_left_failed = pthread_join(leftThread,NULL);
+	int join_right_failed = pthread_join(rightThread,NULL);
+
+	if (join_left_failed || join_right_failed) {
+		perror("Thread joining failed");
+		exit(1);
+	}
+
+	// Merge the two parallel sorted halves back together
+	merge(left, mid, mid + 1, right);
+
+	free(a); // free memory allocated in buildArgs
+	return NULL;
 }
 
 /* we build the argument for the parallel_mergesort function. */
