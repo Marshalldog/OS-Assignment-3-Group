@@ -15,7 +15,7 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 	int k = leftstart; // k is start index of temp memory used in B
 
 	//merge the results into memory in B
-	while (i < leftend && j < rightend){
+	while (i <= leftend && j <= rightend){
 		// check which value is lower in the two array halves
 		if (A[i] <= A[j]){
 			//put lower value into correct slot of B
@@ -30,14 +30,14 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 	}
 
 	//copy any remaining element left in A[leftstart -> leftend] into B
-	while (i < leftend){
+	while (i <= leftend){
 		B[k]=A[i];
 		k++;
 		i++;
 	}
 
 	//copy any remaining element left in A[rightstart -> rightend] into B
-	while (j < rightend){
+	while (j <= rightend){
 		B[k]=A[j];
 		k++;
 		j++;
