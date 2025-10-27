@@ -1,21 +1,25 @@
 README.template
 
-## Project Number/Title 
+# Assignment 3 | Concurrency
 
-* Authors: Your Name, and your group members’ names
-* Group name: Your Group Name
+* Authors: 
+  * Josiah SANTOS (a1886681)
+  * Ethan Taljaard (a1885048)
+  * Kelly SANTRY (a1884945)
+
+* Group name: Assignment 3 Groups 109
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally, you should be pulling this
-right from the project specification. We don't want you to just cut and
-paste, but paraphrase what is stated in the project specification.
+This program aims to improve the sorting speed of the merge-sort sorting algorithm. However, it does not focus on optimising time and space complexity, but instead increases computational speed through multi-threaded optimisation.
+
+Single-threaded merge-sort, also known as, serial merge-sort, utilises only one thread on one CPU core to sort array of length *n*. When implementing parallel merge-sort, multiple threads become available. At the discretion of the OS multi-process scheduler, the numerous threads can be spread across multiple CPU cores to increase performance, with each core only required to sort an array of size *n/N*, where N is the number of threads running concurrently.
 
 ## Manifest
 
 A listing of source files and other non-generated files, and a brief
 (one-line) explanation of the purpose of each file.
+
 
 ## Building the project
 
