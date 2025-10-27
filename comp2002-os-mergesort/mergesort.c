@@ -9,10 +9,12 @@
 
 /* this function will be called by mergesort() and also by parallel_mergesort(). */
 void merge(int leftstart, int leftend, int rightstart, int rightend){
+	// Index variables to identify location in left, right and temporary merging array.
 	int l = leftstart;
 	int r = rightstart;
 	int k = leftstart;
 
+	// While either array has elements remaining, insert the smallest into the temp array
 	while (l <= leftend && r <= rightend) {
 		if (A[l] <= A[r])
 			B[k++] = A[l++];
@@ -20,13 +22,14 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 			B[k++] = A[r++];
 	}
 	
-	// Empty the remaining array into the temp B array
+	// After one array is empty, empty the remaining array into the temp B array
 	while (l <= leftend)
 		B[k++] = A[l++];
 	while (r <= rightend)
 		B[k++] = A[r++];
 
 	// Copy the temp array from B back into A at the corresponding position
+	// memcpy(destination, source, size (bytes))
 	memcpy(&A[leftstart], &B[leftstart], (rightend - leftstart + 1) * (sizeof(int)));
 }
 
@@ -34,6 +37,8 @@ void merge(int leftstart, int leftend, int rightstart, int rightend){
 void my_mergesort(int left, int right){
 	if (left >= right)
 		return; // One element remaining
+
+	// Capture the midpoint
 	int mid = left + (right - left) / 2;
 
 	// Split array down the middle
@@ -50,7 +55,7 @@ void * parallel_mergesort(void *arg){
 	struct argument *a = (struct argument *) arg;
 	int left = a->left, right = a->right, level = a->level;
 
-	// Single elemet (sorted) or empty array
+	// Only a single element or no element is present (technically sorted)
 	if (left >= right) {
 		return NULL; // Don't require a value to be returned;
 	}
@@ -61,6 +66,7 @@ void * parallel_mergesort(void *arg){
 		return NULL;
 	}
 
+	// Find the midpoint of the current array
 	int mid = left + (right - left) / 2;
 	pthread_t leftThread, rightThread; // Pointer to thread IDs
 
@@ -80,7 +86,7 @@ void * parallel_mergesort(void *arg){
 		exit(1);
 	}
 
-	// Wait for the threads to finish
+	// Wait for the threads to finish before merging 
 	int join_left_failed = pthread_join(leftThread,NULL);
 	int join_right_failed = pthread_join(rightThread,NULL);
 

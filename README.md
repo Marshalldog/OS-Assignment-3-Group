@@ -13,12 +13,36 @@ README.template
 
 This program aims to improve the sorting speed of the merge-sort sorting algorithm. However, it does not focus on optimising time and space complexity, but instead increases computational speed through multi-threaded optimisation.
 
-Single-threaded merge-sort, also known as, serial merge-sort, utilises only one thread on one CPU core to sort array of length *n*. When implementing parallel merge-sort, multiple threads become available. At the discretion of the OS multi-process scheduler, the numerous threads can be spread across multiple CPU cores to increase performance, with each core only required to sort an array of size *n/N*, where N is the number of threads running concurrently.
+Single-threaded merge-sort, also known as, serial merge-sort, utilises only one thread on one CPU core to sort array of length *n*. When implementing parallel merge-sort, multiple threads become available to distribute the sorting workload. At the discretion of the OS multi-process scheduler, the numerous threads can be spread across multiple CPU cores to increase performance, with each core only required to sort an array of size *n/N*, where N is the number of threads running concurrently.
 
 ## Manifest
 
 A listing of source files and other non-generated files, and a brief
 (one-line) explanation of the purpose of each file.
+
+* mergesort.h
+
+Defines the 4 functions that are required to complete the parallel merge sort, as well as variables that control array length, temporary array storage and the maximum number of levels (cutoff).
+
+* mergesort.c
+
+
+
+* test-base-case.c
+
+sdf
+
+* test-mergesort.c
+
+wef
+
+* Makefile
+
+Builds both the *test-mergesort* and *test-base-case* programs and provides cleaning functionality.
+
+* .gitignore
+
+Prevents object and dependency files from being committed to GitHub.
 
 
 ## Building the project
