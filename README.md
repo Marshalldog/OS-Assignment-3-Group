@@ -88,15 +88,44 @@ make clean
 
 Summarise the main features of your program. It is also appropriate to
 instruct the user how to use your program.
-### Assessing the Serial Merge-Sort Implementation
+### Serial Merge-Sort Feature
 
 After making the program the user can test the serial merge-sort implementation. For example, consider this command signature indication 100,000,000 elements to be sorted with a cutoff of 0 and a random seed of 50:
 ```
 ./test-base-case 100000000 0 50 
 ```
+This provides the output:
 
+![Demo base case not cuttoff](/comp2002-os-mergesort/images/test-base-case-cutoff-0-DEMO.png)
+
+Importantly, adding a cutoff greater than 0 does not introduce multi-threading:
+```
+./test-base-case 100000000 5 50 
+```
+
+![Demo base case 5 cuttoff](/comp2002-os-mergesort/images/test-base-case-cutoff-5-DEMO.png)
+
+Note that the small time differential here is likely a result of minor changes in single CPU resources available at the time of enter the command to run the test. Running the same command promt 5 times gives varied sort times:
+
+![Demo base case 5 cuttoff](/comp2002-os-mergesort/images/5-base-case-demo.png)
+
+### Parallel Merge-Sort Feature
+
+To capture the power of multithreading, use *test-mergesort*. For example, consider this command signature indication 100,000,000 elements to be sorted with a variety of cuttoff levels and a random seed of 50:
+
+![Demo base case 5 cuttoff](/comp2002-os-mergesort/images/running-para-many.png)
+
+Increasing the number of cutoff levels, and hence, increasing the number of threads working to sort the array, reduces the time to taken to sort. In this snapshot, the number of threads increases as follow:
+| Cutoff       | 1    | 2    | 3    | 4    | 5    | 6    |
+| ------------ | ---- | ---- | ---- | ---- | ---- | ---- |
+| Num Threads  | 2    | 4    | 8    | 16   | 32   | 64   |
+| Sort Time (s)| 6.08 | 3.54 | 1.99 | 1.50 | 1.48 | 1.50 |
+
+Interestingly, as the number of threads reaches 16 and then into 32 and 64, there is no increase in sorting time. This is a likely result of hardware limitations on the testing device (i.e. the number of cores is less than the numbre of desired threads) and/or the cost of creating and merging thread. See more in the [Testing Section](#testing).
 
 ## Testing
+
+***KELLY AND ETHAN COMPLETE***
 
 This section should detail how you tested your code. Simply stating "I ran
 it a few times and it seems to work" is not sufficient. Your testing needs
@@ -118,8 +147,36 @@ did the development and testing process go for you?
 
 ## Sources Used
 
-If you used any sources outside of the textbook, you should list them here. 
-If you looked something up on stackoverflow.com or you use help from AI, and 
-fail to cite it in this section, it will be considered plagiarism and dealt 
-with accordingly. So be safe CITE!
+### ChatGPT
+Gaining a further understanding of the thread and memory APIs:
+```
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+```
+- Why is the return type int?
+- Why is does it require a function pointer and not just a function?
+- Why does the start routine return a void pointer?
+- What does this return?
 
+```
+int pthread_join(pthread_t thread, void **retval);
+```
+- What does this return?
+```
+void *memcpy(void *dest, const void *src, size_t n);
+```
+- What is the size? Size of a single element? Size of the whole array?
+
+### YouTube
+
+Understanding the merge-sort algorithm
+
+[![Merge-Sort Vid Coding with John](https://i.ytimg.com/an_webp/bOk35XmHPKs/mqdefault_6s.webp?du=3000&sqp=CJW7-8cG&rs=AOn4CLD-PIQLrJQ_LG_YvBlT6goQKlirYg)](https://www.youtube.com/watch?v=bOk35XmHPKs)
+
+[![Merge-Sort Vid Michael Sambol](https://i.ytimg.com/vi/4VqmGXwpLqc/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDW2YYkkzIxpVrcfNZypIsT2AhoIw)](https://www.youtube.com/watch?v=4VqmGXwpLqc)
+
+### Geeks for Geeks
+
+Learning more about the thread and memory APIs:
+
+* [Threads in C](https://www.geeksforgeeks.org/c/thread-functions-in-c-c/)
+* [Memcpy](https://www.geeksforgeeks.org/cpp/memcpy-in-cc/)
