@@ -88,6 +88,13 @@ make clean
 
 Summarise the main features of your program. It is also appropriate to
 instruct the user how to use your program.
+### Assessing the Serial Merge-Sort Implementation
+
+After making the program the user can test the serial merge-sort implementation. For example, consider this command signature indication 100,000,000 elements to be sorted with a cutoff of 0 and a random seed of 50:
+```
+./test-base-case 100000000 0 50 
+```
+
 
 ## Testing
 
