@@ -17,27 +17,27 @@ Single-threaded merge-sort, also known as, serial merge-sort, utilises only one 
 
 ## Manifest
 
-* mergesort.h
+> mergesort.h
 
 Defines the 4 functions that are required to complete the parallel merge sort, as well as variables that control array length, temporary array storage and the maximum number of levels (cutoff).
 
-* mergesort.c
+> mergesort.c
 
 Responsible for distrubuting the merge-sort process amongst the designated number of threads and sorting the input array.
 
-* test-base-case.c
+> test-base-case.c
 
 Tests the merge-sort algorithm implementation on a single thread (any cutoff input is ignored and treated as 0). Used to verify the base case of the recursive process.
 
-* test-mergesort.c
+> test-mergesort.c
 
 Tests the parallel merge-sort program which utilises multiple threads which recurse down the base case (serial merge-sort).
 
-* Makefile
+> Makefile
 
 Builds both the *test-mergesort* and *test-base-case* programs and provides cleaning functionality.
 
-* .gitignore
+> .gitignore
 
 Prevents object and dependency files from being committed to GitHub.
 
@@ -137,13 +137,33 @@ N/A
 
 ## Reflection and Self Assessment
 
-Discuss the issues you encountered during development and testing. What
-problems did you have? What did you have to research and learn on your own?
-What kinds of errors did you get? How did you fix them?
+### Bugs
+- One issue was a misunderstanding of the 'base case' parameters in
 
-What parts of the project did you find challenging? Is there anything that
-finally "clicked" for you in the process of working on this project? How well
-did the development and testing process go for you?
+    ```
+    merge(int leftstart, int leftend, int rightstart, int rightend)
+    ```
+    Which has ranges: left subarray [leftstart,leftend] and right subarray [rightstart,rightend].
+
+    However, in our group's previous implementations of merge sort, arrays were merged with
+    ```
+    merge(int left, int mid, int right)
+    ```
+    where *mid* followed the last element of the left subarray and marked the first element of the right subarray (left subarray [left,mid) and right subarray [mid,right)).
+    
+    This confused our group for a while, but we rectified this after a lengthy discussion. 
+
+### Challenges
+- Before running the program in parallel, our group wanted to test our serial merge-sort functionality so we would have the 'base case' for parallel merge-sort verified. Here we struggled to adapt the provided testing script, but eventually figured out how to omit any cutoff and called *my_mergesort* directly.
+- Understanding the thread creation API was a lengthy process once our group was ready to implement the parallel merge-sort. To learn more about the API, we not only consulted the textbook, but used multiple online sources (see [Sources](#sources-used)).
+
+### Light Bulb Moments
+
+- Learning how the void pointer used was valuable. It was interesting to learn how a void pointer allows for a universal interface that can be molded by the programmer. In the following example, arg (void *) type is explicity cast to an argument pointer so we can get the three members from the struct. This allows any number and type of arguments to be passed to the new thread.
+```
+struct argument *a = (struct argument *) arg;
+int left = a->left, right = a->right, level = a->level;
+```
 
 ## Sources Used
 
