@@ -3,9 +3,9 @@ README.template
 # Assignment 3 | Concurrency
 
 * Authors: 
-  * Josiah SANTOS (a1886681)
   * Ethan Taljaard (a1885048)
   * Kelly SANTRY (a1884945)
+  * Josiah SANTOS (a1886681)
 
 * Group name: Assignment 3 Groups 109
 
@@ -17,24 +17,21 @@ Single-threaded merge-sort, also known as, serial merge-sort, utilises only one 
 
 ## Manifest
 
-A listing of source files and other non-generated files, and a brief
-(one-line) explanation of the purpose of each file.
-
 * mergesort.h
 
 Defines the 4 functions that are required to complete the parallel merge sort, as well as variables that control array length, temporary array storage and the maximum number of levels (cutoff).
 
 * mergesort.c
 
-
+Responsible for distrubuting the merge-sort process amongst the designated number of threads and sorting the input array.
 
 * test-base-case.c
 
-sdf
+Tests the merge-sort algorithm implementation on a single thread (any cutoff input is ignored and treated as 0). Used to verify the base case of the recursive process.
 
 * test-mergesort.c
 
-wef
+Tests the parallel merge-sort program which utilises multiple threads which recurse down the base case (serial merge-sort).
 
 * Makefile
 
@@ -52,6 +49,41 @@ delivering a library, where does it need to be installed, or how do you use
 it? Is this an executable, if so, how can a user get up to speed as fast as
 possible?
 
+1. Clone the project from GitHub, using 
+```
+git clone
+```
+2. Navigate to the directory: 
+```
+cd OS-Assignment-3-Group/comp2002-os-mergesort
+```
+3. Build the object files and dependancies for both testing files using 
+```
+make
+```
+4. Run the program using the following signatures:
+  * To test the serial merge-sort functionality (1 thread) use:
+    * *n* represents the size of the array to be sorted.
+    * *cutoff* value will be 0 regardless of integer inputted (single thread)
+    * *rand seed* is the
+
+   ```
+   ./test-base-case <n> <cutoff> <rand seed>
+   ```
+
+  * To test the parallel merge-sort functionality use:
+    * *n* represents the size of the array to be sorted.
+    * *cutoff* represents the number of times the input array is divided in half to be split between double the number of threads. i.e. a *cutoff* = 3 will result in 2<sup>3</sup> = 8 threads.
+    * *rand seed* is the
+
+   ```
+   ./test-merge-sort <n> <cutoff> <rand seed>
+   ```
+5. Clean up objects and dependancies with
+```
+make clean
+```
+
 ## Features and usage
 
 Summarise the main features of your program. It is also appropriate to
@@ -65,7 +97,7 @@ to be detailed here.
 
 ## Known Bugs
 
-List known bugs that you weren't able to fix (or ran out of time to fix).
+N/A
 
 ## Reflection and Self Assessment
 
