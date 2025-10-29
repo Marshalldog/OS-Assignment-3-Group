@@ -124,8 +124,6 @@ Increasing the number of cutoff levels, and hence, increasing the number of thre
 Interestingly, as the number of threads reaches 16 and then into 32 and 64, there is no increase in sorting time. This is a likely result of hardware limitations on the testing device (i.e. the number of cores is less than the numbre of desired threads) and/or the cost of creating and merging thread. See more in the [Testing Section](#testing).
 
 ## Testing
-I ran it a few times and it seems to work
-
 As previously stated, the primary objective of this program is to create a multi-thread optimized merge sort algorithm. Thereby, both the merge sort and the multi-threaded optimization should be tested independently to ensure that the merge sort is functional and that the multi-thread application improves the functionality. The mergesort.c code is structured so that the parallel_mergesort designates the threads to run subsections of the input array through the merge sort algorithm. This design allows for the merge sort algorithm to function independently from parallel_mergesort, making it the ideal starting point for testing.
 > test-base-case.c
 
@@ -133,13 +131,8 @@ The purpose of this test case is to verify that the merge sort algorithm, withou
 
 > test-mergesort.c
 
-
-
 ***KELLY AND ETHAN COMPLETE***
 
-This section should detail how you tested your code. Simply stating "I ran
-it a few times and it seems to work" is not sufficient. Your testing needs
-to be detailed here.
 
 ## Known Bugs
 
