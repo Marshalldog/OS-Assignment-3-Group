@@ -126,7 +126,7 @@ Interestingly, as the number of threads reaches 16 and then into 32 and 64, ther
 ## Testing
 I ran it a few times and it seems to work
 
-As previously stated, the primary objective of this program is to create a multi-thread optimized merge sort algorithm. Thereby, both the merge sort and the multi-threaded optimization should be tested independently to ensure that the merge sort is functional and that the multi-thread application improves the functionality. If either component independently fails the test, the overall viability for real world applications is valueless. The mergesort.c code is structured so the
+As previously stated, the primary objective of this program is to create a multi-thread optimized merge sort algorithm. Thereby, both the merge sort and the multi-threaded optimization should be tested independently to ensure that the merge sort is functional and that the multi-thread application improves the functionality. The mergesort.c code is structured so that the parallel_mergesort designates the threads to run subsections of the input array through the merge sort algorithm. This design allows for the merge sort algorithm to function independently from parallel_mergesort, making it the ideal starting point for testing.
 > test-base-case.c
 
 The purpose of this test case is to verify that the merge sort algorithm, without the multithreading functions as intended. This test case generates a random array of numbers, using a seed and array size. The test case then starts a timer and passes the array to the mergesort function
