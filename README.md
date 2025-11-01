@@ -77,7 +77,7 @@ make
     * *rand seed* is the
 
    ```
-   ./test-merge-sort <n> <cutoff> <rand seed>
+   ./test-mergesort <n> <cutoff> <rand seed>
    ```
 5. Clean up objects and dependancies with
 ```
@@ -127,20 +127,30 @@ Interestingly, as the number of threads reaches 16 and then into 32 and 64, ther
 As previously stated, the primary objective of this program is to create a multi-thread optimized merge sort algorithm. Thereby, both the merge sort and the multi-threaded optimization should be tested independently to ensure that the merge sort is functional and that the multi-thread application improves the functionality. The mergesort.c code is structured so that the parallel_mergesort designates the threads to run subsections of the input array through the merge sort algorithm. This design allows for the merge sort algorithm to function independently from parallel_mergesort, making it the ideal starting point for testing.
 > test-base-case.c
 
-How the test case functions:
 The purpose of this test case is to verify that the merge sort algorithm, without the multithreading functions as intended. This program will run on a single thread and will recursively call merge sort algorithm until completion. This test case generates a random array of numbers, using a seed and array size. The test case then starts a clock and passes the array to the merge sort function. The merge sort algorithm finishes and the change time is measured. Then the test case runs a scan through the output array to validate the sort. If the sorting validation is successful, the test case outputs the time performance metric. Otherwise, the test case throws an error. 
-
-Test Case Testing:
-
 
 > test-mergesort.c
 
-***KELLY AND ETHAN COMPLETE***
+This test case functions almost identically to the test-base-case.c with one key difference being when the merge sort performs a recursive calls, it spits the workload between 2 thread, and will continue to do until it reaches the maximum number of threads (which were given in the program call). With the only difference between the cases being the addition of parallelized computation, the results of test operating with the same input will highlight the performance characteristics of these approaches.
+
+> Testing Comparison
+
+Test 1: Sample Size: 1000, Thread Count: 12, Seed: 12345
+![Test Case 1](/comp2002-os-mergesort/images/N1000T12S12345.png)
+A relatively small sample size of 1000 was used, and the resulting sorting times for completing were small. The multi-threaded test case complete within a sub-millisecond while the base case completed with a sub-second period. With such a small sample size, the performance difference between the test case are not highlighted well.
+
+Test 2: Sample Size: 1000000, Thread Count: 12, Seed: 12345
+![Test Case 2](/comp2002-os-mergesort/images/N1000000T12S12345.png)
+With a larger input size, the performance of the multi-threaded program is 4 times greater than the non-multi-threaded. The parallelization of the task allowed for the task to be rapidly divided into small work loads, effectively maximising the usage of computer resources.
+
+Test 3: Sample Size: 100000000, Thread Count: 12, Seed: 12345
+![Test Case 3](/comp2002-os-mergesort/images/N100000000T12S12345.png)
+The size of the input array is approaching the maximum integer this program can intake and operate on due to integer overflow. Due to the large test size, the parallelizated test case performs at a significant advantage due to the extended usage of a more computer resources. For this sample size, the non parallelizated merge sort performs almost 10 times worse due to poor resource usage.
 
 
 ## Known Bugs
 
-N/A
+when a sufficiently large input size is selected, an integer overflow occurs, causing the program to register a smaller input size.
 
 ## Reflection and Self Assessment
 
